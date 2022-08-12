@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	dataSource = "hamid:kolajoke2055@tcp(localhost:3306)/registrationandlogin"
+	dataSource = "hamid:@tcp(localhost:3306)/registrationandlogin"
 )
 
 func main() {
