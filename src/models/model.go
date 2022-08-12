@@ -1,11 +1,7 @@
 package model
 
 import (
-	"fmt"
 	"io"
-	"net/http"
-
-	"github.com/gorilla/mux"
 
 	interfaces "github.com/hamidOyeyiola/crud-api/interfaces"
 )
@@ -25,21 +21,16 @@ type SQLQueryToUpdate struct {
 type JSONObject string
 
 type Model interface {
-	Name() string
-	PrimaryKey() string
-	Validate(interfaces.Iterator, io.Reader) (string, bool, SQLQueryToDelete)
 	FromQueryResult(interfaces.Iterator) (JSONObject, int)
-	FromQueryResultArray([]interfaces.Iterator) (JSONObject, int)
-	InsertInto(jsonObject io.Reader) ([]SQLQueryToInsert, []SQLQueryToSelect, bool)
-	InsertIntoWhere(jsonObject io.Reader, value string) (SQLQueryToInsert, SQLQueryToSelect, bool)
-	InsertIntoIf(jsonObject io.Reader, value string) (SQLQueryToInsert, SQLQueryToSelect, bool)
-	UpdateWhere(jsonObject io.Reader, value string) (SQLQueryToUpdate, SQLQueryToSelect, bool)
-	UpdateIf(jsonObject io.Reader, value string) (SQLQueryToUpdate, SQLQueryToSelect, bool)
-	Update(jsonObject io.Reader) ([]SQLQueryToUpdate, []SQLQueryToSelect, bool)
-	SelectFromWhere(value string) (SQLQueryToSelect, bool)
-	DeleteFromWhere(value string) (SQLQueryToDelete, bool)
+	QueryToInsert(jsonObject io.Reader) (SQLQueryToInsert, bool)
+	QueryToUpdateWhere(jsonObject io.Reader, value string) (SQLQueryToUpdate, bool)
+	QueryToSelectWhere(value string) (SQLQueryToSelect, bool)
+	QueryToSelectAll() (SQLQueryToSelect, bool)
+	QueryToDeleteWhere(value string) (SQLQueryToDelete, bool)
+	QueryToDeleteAll() (SQLQueryToDelete, bool)
 }
 
+/*
 func GetQueryToSelect(m Model, id string) (q SQLQueryToSelect, ok bool) {
 	q = SQLQueryToSelect(fmt.Sprintf("SELECT * FROM %s WHERE id IN (%s)", m.Name(), id))
 	return q, true
@@ -60,3 +51,5 @@ func GetParamFromRequest(req *http.Request, param string) (string, bool) {
 	id, ok := vars[param]
 	return id, ok
 }
+
+*/

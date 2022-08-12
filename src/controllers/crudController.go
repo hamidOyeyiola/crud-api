@@ -1,48 +1,23 @@
 package controller
 
 import (
-	"net/http"
-
 	model "github.com/hamidOyeyiola/crud-api/models"
 )
 
-type CRUDAPIInitializer interface {
-	CRUDAPIInitialize(objectTag string,
-		validateTag string,
-		dataObject model.Model,
-		validateObject model.Model)
-}
-
 type Creater interface {
-	Create(rw http.ResponseWriter, req *http.Request)
-}
-
-type ValidateCreater interface {
-	ValidateCreate(rw http.ResponseWriter, req *http.Request)
+	Create(model.SQLQueryToInsert) (*Header, *Body, bool)
 }
 
 type Retriever interface {
-	Retrieve(rw http.ResponseWriter, req *http.Request)
-}
-
-type ValidateRetriever interface {
-	ValidateRetrieve(rw http.ResponseWriter, req *http.Request)
+	Retrieve(model.SQLQueryToSelect, model.Model) (*Header, *Body, bool)
 }
 
 type Updater interface {
-	Update(rw http.ResponseWriter, req *http.Request)
-}
-
-type ValidateUpdater interface {
-	ValidateUpdate(rw http.ResponseWriter, req *http.Request)
+	Update(model.SQLQueryToUpdate) (*Header, *Body, bool)
 }
 
 type Deleter interface {
-	Delete(rw http.ResponseWriter, req *http.Request)
-}
-
-type ValidateDeleter interface {
-	ValidateDelete(rw http.ResponseWriter, req *http.Request)
+	Delete(model.SQLQueryToDelete) (*Header, *Body, bool)
 }
 
 type CreateRetrieveUpdateDeleter interface {
@@ -50,9 +25,4 @@ type CreateRetrieveUpdateDeleter interface {
 	Retriever
 	Updater
 	Deleter
-	ValidateCreater
-	ValidateRetriever
-	ValidateUpdater
-	ValidateDeleter
-	CRUDAPIInitializer
 }
